@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import GuestForm from './components/GuestForm';
@@ -76,8 +77,7 @@ const App: React.FC = () => {
         </main>
 
         <footer className="bg-gray-800 text-gray-400 py-6 text-center text-sm mt-auto">
-          <p>&copy; {new Date().getFullYear()} SD Negeri 3 Karau Kuala. All rights reserved.</p>
-          <p className="mt-1 text-xs">Dikembangkan dengan Teknologi AI Google Gemini</p>
+          <p>&copy; {new Date().getFullYear()} SD Negeri 3 BANGKUANG. All rights reserved.</p>
         </footer>
       </div>
 

@@ -21,7 +21,7 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
         <div className="relative z-10">
           <h1 className="text-3xl md:text-5xl font-bold mb-4 tracking-tight">Selamat Datang</h1>
           <p className="text-red-100 text-lg md:text-xl max-w-2xl mx-auto font-light">
-            Portal Buku Tamu Digital SD Negeri 3 Karau Kuala. <br/>
+            Portal Buku Tamu Digital SD Negeri 3 Bangkuang. <br/>
             Melayani dengan sepenuh hati, mencatat dengan teknologi.
           </p>
           
@@ -75,7 +75,7 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
           </div>
           <h3 className="mt-4 text-xl font-bold text-gray-800">Profil Sekolah</h3>
           <p className="text-gray-500 text-sm mt-2">
-            Kenali lebih dekat SD Negeri 3 Karau Kuala, visi misi, dan budaya kami.
+            Kenali lebih dekat SD Negeri 3 Bangkuang, visi misi, dan budaya kami.
           </p>
         </div>
       </div>
@@ -96,8 +96,15 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
             <MapPin className="text-red-500 mt-1" size={20} />
             <div>
               <p className="font-semibold text-gray-700">Lokasi</p>
-              <p className="text-sm text-gray-600">Jl. Pendidikan No. 123, Karau Kuala</p>
-              <p className="text-sm text-gray-600">Kalimantan Tengah</p>
+              <a 
+                href="https://maps.app.goo.gl/gDtaDKz3SvT8pemM9" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-sm text-blue-600 hover:text-blue-800 hover:underline transition-colors block mt-1"
+              >
+                Jl. Pendidikan No. 123, Bangkuang<br/>
+                Kalimantan Tengah
+              </a>
             </div>
           </div>
         </div>

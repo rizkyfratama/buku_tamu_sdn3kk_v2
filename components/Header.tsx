@@ -85,7 +85,7 @@ const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
             onClick={() => handleNavClick(ViewState.HOME)}
           >
             <h1 className="text-xl md:text-2xl font-bold text-white tracking-tight leading-none group-hover:text-red-100 transition-colors">
-              SDN 3 KARAU KUALA
+              SDN 3 BANGKUANG
             </h1>
             <span className="text-red-200 text-xs font-medium tracking-wider mt-0.5 opacity-90 group-hover:opacity-100 transition-opacity">
               BUKU TAMU DIGITAL
@@ -124,7 +124,7 @@ const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
             
             <div className="pt-3 pb-2 text-center border-t border-white/10 mt-2">
                <p className="text-xs text-red-200/70 font-light tracking-wide">
-                 Jl. Pendidikan No. 123, Karau Kuala
+                 Jl. Pendidikan No. 123, Bangkuang
                </p>
             </div>
           </div>

@@ -1,46 +1,28 @@
 import { GoogleGenAI, Type } from "@google/genai";
 
-// Helper untuk mendapatkan API Key dengan aman (mendukung Vite dan environment biasa)
-const getApiKey = (): string => {
-  try {
-    // Cek Vite env
-    // @ts-ignore
-    if (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_KEY) {
-      // @ts-ignore
-      return import.meta.env.VITE_API_KEY;
-    }
-    // Cek Process env
-    if (typeof process !== 'undefined' && process.env && process.env.API_KEY) {
-      return process.env.API_KEY;
-    }
-  } catch (e) {
-    console.warn("Gagal membaca env var");
-  }
-  return "";
-};
-
 export const analyzeVisit = async (name: string, purpose: string) => {
-  const apiKey = getApiKey();
+  const apiKey = process.env.API_KEY;
 
   // JIKA API KEY KOSONG: Jangan crash, tapi kembalikan pesan default
   if (!apiKey) {
     console.warn("API Key Gemini tidak ditemukan. Menggunakan pesan default.");
     return {
-      category: 'Umum',
-      message: `Terima kasih Bapak/Ibu ${name} sudah berkunjung. Data Anda telah kami catat.`
+      message: `Terima kasih Bapak/Ibu ${name} sudah berkunjung. Data Anda telah kami catat.`,
+      category: 'Umum'
     };
   }
 
   try {
     // Inisialisasi hanya saat fungsi dipanggil (Lazy Load)
-    const ai = new GoogleGenAI({ apiKey: apiKey });
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     const model = 'gemini-2.5-flash';
     
     const prompt = `
-      Seorang tamu bernama "${name}" berkunjung ke SD Negeri 3 Karau Kuala dengan tujuan: "${purpose}".
+      Seorang tamu bernama "${name}" berkunjung ke SD Negeri 3 Bangkuang dengan tujuan: "${purpose}".
       
       Tugasmu:
-      1. Buat pesan ucapan terima kasih yang sopan dan relevan dalam Bahasa Indonesia.
+      1. Klasifikasikan tujuan kunjungan ini menjadi salah satu kategori berikut: 'Dinas', 'Wali Murid', 'Paket/Kurir', 'Tamu Sekolah', atau 'Umum'.
+      2. Buat pesan ucapan terima kasih yang sopan dan relevan dalam Bahasa Indonesia.
       
       Output dalam format JSON.
     `;
@@ -53,30 +35,29 @@ export const analyzeVisit = async (name: string, purpose: string) => {
         responseSchema: {
           type: Type.OBJECT,
           properties: {
-            // category disimpan untuk kompatibilitas tipe data, meski tidak ditampilkan
-            category: { type: Type.STRING }, 
-            message: { type: Type.STRING }
+            message: { type: Type.STRING },
+            category: { type: Type.STRING }
           },
-          required: ["message"]
+          required: ["message", "category"]
         }
       }
     });
 
     const text = response.text;
-    if (!text) return { category: 'Umum', message: 'Terima kasih atas kunjungan Anda.' };
+    if (!text) return { message: 'Terima kasih atas kunjungan Anda.', category: 'Umum' };
     
     const result = JSON.parse(text);
     return {
-        category: result.category || 'Umum',
-        message: result.message
+        message: result.message,
+        category: result.category || 'Umum'
     };
 
   } catch (error) {
     console.error("Error analyzing visit with Gemini:", error);
     // Fallback jika kuota habis atau error lain
     return {
-      category: 'Umum',
-      message: `Terima kasih Bapak/Ibu ${name} sudah berkunjung ke SD Negeri 3 Karau Kuala.`
+      message: `Terima kasih Bapak/Ibu ${name} sudah berkunjung ke SD Negeri 3 Bangkuang.`,
+      category: 'Umum'
     };
   }
 };

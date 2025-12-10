@@ -10,7 +10,7 @@ const About: React.FC = () => {
       <div className="bg-white rounded-xl shadow-md overflow-hidden">
         <div className="bg-gradient-to-r from-red-700 to-red-600 p-6 text-white">
           <div className="flex items-center space-x-3">
-            <h2 className="text-2xl font-bold">Tentang SD Negeri 3 Karau Kuala</h2>
+            <h2 className="text-2xl font-bold">Tentang SD Negeri 3 Bangkuang</h2>
           </div>
         </div>
         <div className="p-8 text-gray-700 space-y-4 leading-relaxed">
@@ -18,7 +18,7 @@ const About: React.FC = () => {
             "Mewujudkan Generasi Cerdas, Berkarakter, dan Berakhlak Mulia."
           </p>
           <p>
-            SD Negeri 3 Karau Kuala hadir sebagai lembaga pendidikan dasar yang berkomitmen untuk tidak hanya mencetak siswa yang unggul secara akademis, tetapi juga memiliki integritas moral yang tinggi. Kami percaya bahwa pendidikan adalah pondasi utama dalam membangun masa depan bangsa.
+            SD Negeri 3 Bangkuang hadir sebagai lembaga pendidikan dasar yang berkomitmen untuk tidak hanya mencetak siswa yang unggul secara akademis, tetapi juga memiliki integritas moral yang tinggi. Kami percaya bahwa pendidikan adalah pondasi utama dalam membangun masa depan bangsa.
           </p>
           <p>
             Dengan lingkungan belajar yang kondusif, tenaga pengajar yang berdedikasi, dan semangat "Merdeka Belajar", kami berupaya menggali potensi terbaik setiap anak didik agar siap menghadapi tantangan zaman dengan tetap memegang teguh nilai-nilai luhur budaya dan agama.
@@ -56,7 +56,7 @@ const About: React.FC = () => {
         </div>
         <div className="p-8">
           <p className="text-gray-700 mb-6">
-            Sebagai wujud nyata transformasi digital di lingkungan sekolah, SD Negeri 3 Karau Kuala menghadirkan sistem <strong>Buku Tamu Digital Terpadu</strong>. Aplikasi ini dirancang untuk memodernisasi proses administrasi penerimaan tamu dengan sentuhan teknologi terkini.
+            Sebagai wujud nyata transformasi digital di lingkungan sekolah, SD Negeri 3 Bangkuang menghadirkan sistem <strong>Buku Tamu Digital Terpadu</strong>. Aplikasi ini dirancang untuk memodernisasi proses administrasi penerimaan tamu dengan sentuhan teknologi terkini.
           </p>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
