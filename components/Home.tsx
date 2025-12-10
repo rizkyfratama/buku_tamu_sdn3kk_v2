@@ -25,13 +25,21 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
             Melayani dengan sepenuh hati, mencatat dengan teknologi.
           </p>
           
-          <button 
-            onClick={() => onNavigate(ViewState.FORM)}
-            className="mt-8 bg-white text-red-700 hover:bg-red-50 font-bold py-3 px-8 rounded-full shadow-lg transform transition hover:scale-105 flex items-center mx-auto"
-          >
-            <PenTool className="mr-2" size={20} />
-            Mulai Isi Buku Tamu
-          </button>
+          {/* Tombol dengan Animasi "Minta Tekan" */}
+          <div className="mt-8 relative inline-flex group">
+            {/* Efek Ping/Gelombang di belakang tombol */}
+            <div className="absolute transition-all duration-1000 opacity-70 -inset-px bg-white rounded-full blur-lg group-hover:opacity-100 group-hover:-inset-1 group-hover:duration-200 animate-pulse"></div>
+            <span className="absolute inset-0 rounded-full bg-white opacity-40 animate-ping duration-[2000ms]"></span>
+
+            <button 
+              onClick={() => onNavigate(ViewState.FORM)}
+              className="relative bg-white text-red-700 hover:bg-red-50 font-bold py-3 px-8 rounded-full shadow-lg transform transition hover:scale-105 flex items-center mx-auto z-10 border-2 border-transparent"
+            >
+              {/* Ikon memantul kecil */}
+              <PenTool className="mr-2 animate-bounce" size={20} />
+              Mulai Isi Buku Tamu
+            </button>
+          </div>
         </div>
       </div>
 

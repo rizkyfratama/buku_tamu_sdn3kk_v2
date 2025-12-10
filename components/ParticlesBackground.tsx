@@ -14,8 +14,11 @@ const ParticlesBackground: React.FC = () => {
     let particles: Particle[] = [];
     const colors = ['#800080', '#FFC0CB', '#87CEEB']; 
     
-    // Posisi mouse/sentuhan (dimulai di luar layar)
+    // Posisi mouse/sentuhan
     let mouse = { x: -9999, y: -9999 };
+
+    // Deteksi apakah Mobile (Layar < 768px)
+    const isMobile = window.innerWidth < 768;
 
     class Particle {
       x: number;
@@ -28,9 +31,10 @@ const ParticlesBackground: React.FC = () => {
       constructor() {
         this.x = Math.random() * canvas!.width;
         this.y = Math.random() * canvas!.height;
-        // Kecepatan gerak (sedikit diperlambat agar lebih tenang di mata)
-        this.dx = (Math.random() - 0.5) * 0.8; 
-        this.dy = (Math.random() - 0.5) * 0.8;
+        // Kecepatan: Mobile lebih lambat sedikit agar tidak pusing
+        const speedFactor = isMobile ? 0.5 : 0.8;
+        this.dx = (Math.random() - 0.5) * speedFactor; 
+        this.dy = (Math.random() - 0.5) * speedFactor;
         this.size = Math.random() * 3 + 1;
         this.color = colors[Math.floor(Math.random() * colors.length)];
       }
@@ -53,12 +57,15 @@ const ParticlesBackground: React.FC = () => {
 
     const initParticles = () => {
       particles = [];
-      // OPTIMASI 1: Kurangi kepadatan partikel.
-      // Semakin besar pembaginya (20000), semakin sedikit partikelnya.
-      let numberOfParticles = (window.innerWidth * window.innerHeight) / 20000;
+      const width = window.innerWidth;
+      const height = window.innerHeight;
       
-      // OPTIMASI 2: Batasi maksimal partikel agar HP tidak berat
-      const maxParticles = window.innerWidth < 768 ? 50 : 100; // Max 50 di HP, 100 di Desktop
+      // OPTIMASI KHUSUS ANDROID/MOBILE
+      // Mengurangi kepadatan partikel secara signifikan di layar kecil
+      // Desktop: ~100 partikel, Mobile: Max 35 partikel (Sangat Ringan)
+      const maxParticles = width < 768 ? 35 : 100; 
+      
+      let numberOfParticles = (width * height) / 15000;
       numberOfParticles = Math.min(numberOfParticles, maxParticles);
 
       for (let i = 0; i < numberOfParticles; i++) {
@@ -77,7 +84,6 @@ const ParticlesBackground: React.FC = () => {
       mouse.y = e.clientY;
     };
 
-    // Support sentuhan jari di HP
     const handleTouchMove = (e: TouchEvent) => {
       if(e.touches.length > 0) {
         mouse.x = e.touches[0].clientX;
@@ -97,40 +103,41 @@ const ParticlesBackground: React.FC = () => {
 
     handleResize();
 
-    // Loop Animasi Utama
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
-      // Jarak koneksi (dikuadratkan untuk menghindari Math.sqrt)
-      // Jarak partikel: 120px -> 14400
-      // Jarak mouse: 150px -> 22500
-      const connectDistanceSq = 120 * 120;
-      const mouseDistanceSq = 150 * 150;
+      // OPTIMASI JARAK KONEKSI
+      // Mobile: Jarak 80px (6400 sq) - Lebih pendek agar tidak kebanyakan garis
+      // Desktop: Jarak 120px (14400 sq)
+      const connectDist = isMobile ? 80 : 120;
+      const connectDistanceSq = connectDist * connectDist;
+      
+      const mouseDist = 150;
+      const mouseDistanceSq = mouseDist * mouseDist;
 
       for (let i = 0; i < particles.length; i++) {
         particles[i].update();
         particles[i].draw();
 
-        // 1. Hubungkan antar partikel
+        // Loop untuk garis penghubung
         for (let j = i; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
           const dy = particles[i].y - particles[j].y;
-          // OPTIMASI 3: Menggunakan jarak kuadrat (dx*dx + dy*dy) tanpa Math.sqrt
           const distSq = dx * dx + dy * dy;
           
           if (distSq < connectDistanceSq) {
             ctx.beginPath();
-            // Kalkulasi opacity berdasarkan jarak kuadrat
             const opacity = 1 - (distSq / connectDistanceSq);
+            // Garis lebih tipis (0.3) agar rendering lebih cepat
             ctx.strokeStyle = `rgba(180, 180, 180, ${opacity})`; 
-            ctx.lineWidth = 0.5;
+            ctx.lineWidth = 0.3; 
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
             ctx.stroke();
           }
         }
 
-        // 2. Hubungkan ke Mouse/Jari
+        // Interaksi Mouse/Sentuhan
         const dxMouse = particles[i].x - mouse.x;
         const dyMouse = particles[i].y - mouse.y;
         const distMouseSq = dxMouse * dxMouse + dyMouse * dyMouse;
@@ -139,7 +146,7 @@ const ParticlesBackground: React.FC = () => {
           ctx.beginPath();
           const opacity = 1 - (distMouseSq / mouseDistanceSq);
           ctx.strokeStyle = `rgba(255, 0, 0, ${opacity})`; 
-          ctx.lineWidth = 1;
+          ctx.lineWidth = 0.8;
           ctx.moveTo(particles[i].x, particles[i].y);
           ctx.lineTo(mouse.x, mouse.y);
           ctx.stroke();
