@@ -1,0 +1,7 @@
+{
+  "name": "Buku Tamu SD Negeri 3 Karau Kuala",
+  "description": "Aplikasi buku tamu digital modern dengan fitur foto, tanda tangan, dan integrasi AI untuk ringkasan kunjungan.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
